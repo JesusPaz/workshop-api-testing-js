@@ -5,29 +5,32 @@ const chai = require('chai');
 const expect = chai.expect;
 
 describe('First Api Tests', () => {
+
+    const urlAPI = 'https://httpbin.org'
+
     it('Consume GET Service', async () => {
-        const response = await agent.get('https://httpbin.org/ip');
+        const response = await agent.get(`${urlAPI}/ip`);
         expect(response.status).to.equal(statusCode.OK);
         expect(response.body).to.have.property('origin');
     });
 
 
     it('Consume GET Service with query parameters', async () => {
-        const query = {
+        const requestBody = {
             name: 'John',
             age: '31',
             city: 'New York'
         };
 
-        const response = await agent.get('https://httpbin.org/get').query(query);
+        const response = await agent.get(`${urlAPI}/get`).query(requestBody);
 
         expect(response.status).to.equal(statusCode.OK);
-        expect(response.body.args).to.eql(query);
+        expect(response.body.args).to.eql(requestBody);
     });
 
 
     it('HEAD request', async () => {
-        const response = await agent.head('https://httpbin.org/get');
+        const response = await agent.head(`${urlAPI}/get`);
 
         expect(response.status).to.equal(statusCode.OK);
     });
@@ -41,7 +44,7 @@ describe('First Api Tests', () => {
             city: 'New York'
         };
 
-        const response = await agent.put('https://httpbin.org/put').query(requestBody);
+        const response = await agent.put(`${urlAPI}/put`).query(requestBody);
 
         expect(response.status).to.equal(statusCode.OK);
         expect(response.body.args).to.eql(requestBody);
@@ -49,7 +52,7 @@ describe('First Api Tests', () => {
 
 
     it('DELETE request', async () => {
-        const response = await agent.delete('https://httpbin.org/delete');
+        const response = await agent.delete(`${urlAPI}/delete`);
 
         expect(response.status).to.equal(statusCode.OK);
         expect(response.body).to.have.property('origin');
@@ -64,7 +67,7 @@ describe('First Api Tests', () => {
             city: 'New York'
         };
 
-        const response = await agent.patch('https://httpbin.org/patch').query(requestBody);
+        const response = await agent.patch(`${urlAPI}/patch`).query(requestBody);
 
         expect(response.status).to.equal(statusCode.OK);
         expect(response.body.args).to.eql(requestBody);
