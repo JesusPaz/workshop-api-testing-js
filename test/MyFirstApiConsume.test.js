@@ -34,7 +34,6 @@ it('HEAD request', async () => {
     const response = await agent.head('https://httpbin.org/get');
     
     expect(response.status).to.equal(statusCode.OK);
-    //expect(response.body).to.have.property('origin');
     });
 
 
