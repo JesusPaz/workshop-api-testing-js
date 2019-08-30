@@ -28,6 +28,7 @@
     "mocha": "^6.2.0"
   },
   "dependencies": {
+    "dotenv": "^8.1.0",
     "eslint": "^6.2.2",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-airbnb-base": "^14.0.0",
