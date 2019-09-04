@@ -1,6 +1,8 @@
 const agent = require('superagent');
 const statusCode = require('http-status-codes');
 const { expect } = require('chai');
+const fs = require('fs');
+
 
 const urlBase = 'https://api.github.com';
 const githubUserName = 'aperdomob';
@@ -30,33 +32,17 @@ describe('Github Api Test User', () => {
       expect(found.description).to.equal('An awesome html report for Jasmine');
     });
 
-    it('Download a zip file with the repo', async () => {
-      const responseUsers = await agent.get(`${urlBase}/users/${githubUserName}`)
-        .set('User-Agent', 'agent');
+    it('Download a zip file with the repo and check that exists', async () => {
+      const repoName = 'jasmine-awesome-report';
+      const href = `https://github.com/aperdomob/${repoName}/archive`;
+      const zipFile = 'master.zip';
+      const source = `${href}/${zipFile}`;
 
-      const responseRepos = await agent.get(responseUsers.body.repos_url)
-        .set('User-Agent', 'agent');
+      agent
+        .get(source)
+        .pipe(fs.createWriteStream(zipFile));
 
-      const found = responseRepos.body.find((repo) => repo.name === 'jasmine-awesome-report');
-
-      function download(url, dest, cb) {
-        const file = fs.createWriteStream(dest);
-        const request = https.get(url, (response) => {
-          response.pipe(file);
-          file.on('finish', () => {
-            file.close(cb); // close() is async, call cb after close completes.
-          });
-        }).on('error', (err) => { // Handle errors
-          fs.unlink(dest); // Delete the file async. (But we don't check the result)
-          if (cb) cb(err.message);
-        });
-      }
-      const dest = './jasmine-awesome-report.zip';
-      const url = 'https://api.github.com/repos/aperdomob/jasmine-awesome-report/zipball/master';
-
-      download(url, dest, () => {
-        console.log('Done');
-      });
+      expect(fs.existsSync(zipFile)).to.equal(true);
     });
   });
 });
