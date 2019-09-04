@@ -2,6 +2,7 @@ const agent = require('superagent');
 const statusCode = require('http-status-codes');
 const { expect } = require('chai');
 const fs = require('fs');
+const assert = require('assert');
 
 
 const urlBase = 'https://api.github.com';
@@ -27,6 +28,10 @@ describe('Github Api Test User', () => {
         .set('User-Agent', 'agent');
 
       const found = responseRepos.body.find((repo) => repo.name === 'jasmine-awesome-report');
+
+      assert(found !== null);
+      assert(found !== undefined);
+
       expect(found.name).to.equal('jasmine-awesome-report');
       expect(found.private).to.equal(false);
       expect(found.description).to.equal('An awesome html report for Jasmine');
