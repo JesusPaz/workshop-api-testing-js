@@ -23,7 +23,7 @@ describe('Github Api Test User', () => {
       const responseUsers = await agent.get(`${urlBase}/users/${githubUserName}`)
         .set('User-Agent', 'agent');
 
-      const responseRepos = await agent.get(responseUsers.body.repos_url)
+      const responseRepos = await agent.get(`${responseUsers.body.repos_url}`)
         .set('User-Agent', 'agent');
 
       const found = responseRepos.body.find((repo) => repo.name === 'jasmine-awesome-report');
