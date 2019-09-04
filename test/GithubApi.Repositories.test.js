@@ -2,12 +2,10 @@ const agent = require('superagent');
 const statusCode = require('http-status-codes');
 const { expect } = require('chai');
 const fs = require('fs');
-const assert = require('assert');
-
+const { assert } = require('chai');
 
 const urlBase = 'https://api.github.com';
 const githubUserName = 'aperdomob';
-
 
 describe('Github Api Test User', () => {
   describe('Get method test', () => {
@@ -29,8 +27,7 @@ describe('Github Api Test User', () => {
 
       const found = responseRepos.body.find((repo) => repo.name === 'jasmine-awesome-report');
 
-      assert(found !== null);
-      assert(found !== undefined);
+      assert.exists(found, 'found is neither `null` nor `undefined`');
 
       expect(found.name).to.equal('jasmine-awesome-report');
       expect(found.private).to.equal(false);
