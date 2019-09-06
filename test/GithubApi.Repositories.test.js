@@ -27,7 +27,7 @@ describe('Github Api Test User', () => {
 
       const found = responseRepos.body.find((repo) => repo.name === 'jasmine-awesome-report');
 
-      assert.exists(found, 'found is neither `null` nor `undefined`');
+      assert.exists(found, 'Do not found any repository using the name "jasmine-awesome-report"');
 
       expect(found.name).to.equal('jasmine-awesome-report');
       expect(found.private).to.equal(false);
